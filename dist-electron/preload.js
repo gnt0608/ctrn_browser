@@ -1,1 +1,1 @@
-"use strict";const e=require("electron");e.contextBridge.exposeInMainWorld("electronAPI",{getFolder:()=>e.ipcRenderer.invoke("getFolder"),openFile:()=>e.ipcRenderer.invoke("dialog:openFile"),walkTree:r=>e.ipcRenderer.invoke("walkTree",r)});
+"use strict";const e=require("electron");e.contextBridge.exposeInMainWorld("electronAPI",{getFolder:()=>e.ipcRenderer.invoke("getFolder"),openFile:()=>e.ipcRenderer.invoke("dialog:openFile"),findProject:o=>e.ipcRenderer.invoke("findProject",o),loadYaml:o=>e.ipcRenderer.invoke("loadYaml",o)});

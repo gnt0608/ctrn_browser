@@ -17,7 +17,6 @@ let folder = ref("")
 
 async function opendialog() {
     let foldername = await window.electronAPI.openFile();
-    console.log(folder.value)
     folder.value = foldername
 }
 

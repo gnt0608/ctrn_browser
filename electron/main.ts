@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
-const Store = require('electron-store');
+const Store = require("electron-store");
+import * as yaml from "js-yaml";
+
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -22,9 +24,10 @@ let win: BrowserWindow;
 const preload = path.join(process.env.DIST, "preload.js");
 
 function bootstrap() {
-  ipcMain.handle("getFolder", handleGetFolder)
+  ipcMain.handle("getFolder", handleGetFolder);
   ipcMain.handle("dialog:openFile", handleFileOpen);
-  ipcMain.handle("walkTree", handleWalkTree);
+  ipcMain.handle("findProject", handleFindProject);
+  ipcMain.handle("loadYaml", loadYaml);
   win = new BrowserWindow({
     webPreferences: {
       preload,
@@ -50,34 +53,41 @@ async function handleFileOpen() {
     properties: ["openDirectory"],
   });
   if (!canceled) {
-    folderData.set('folder', filePaths[0]); 
+    folderData.set("folder", filePaths[0]);
     return filePaths[0];
   }
 }
 
 function handleGetFolder() {
-    return folderData.get('folder', ""); 
+  return folderData.get("folder", "");
 }
-
 
 import fs from "fs";
-function handleWalkTree(event, foldername: string) {
-  return walk(foldername);
+function handleFindProject(event, foldername: string) {
+  return findProject(foldername);
 }
 
-function walk(dir: string) {
+function findProject(dir: string) {
   let arr = [];
   let files = fs.readdirSync(dir);
   for (let file of files) {
     var filepath = path.join(dir, file);
     let stats = fs.statSync(filepath);
     if (stats.isDirectory()) {
-      arr.push({ name: file, type: "directory", child: walk(filepath) });
-    } else if (stats.isFile()) {
-      arr.push({ name: file, type: "file" });
+      arr = arr.concat(findProject(filepath));
+    } else if (
+      stats.isFile() &&
+      (file == "config.yaml" || file == "config.yml")
+    ) {
+      arr.push({ name: path.basename(dir), path: filepath });
     }
   }
   return arr;
+}
+
+function loadYaml(event, filename: string) {
+  const yamlText = fs.readFileSync(filename, "utf8");
+  return yaml.load(yamlText);
 }
 
 app.whenReady().then(bootstrap);

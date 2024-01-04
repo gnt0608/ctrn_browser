@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
   modules: ["nuxt-electron", '@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+  components: {
+    global: true,
+    dirs: ['~/components/props']
+  },
   electron: {
     build: [
       {

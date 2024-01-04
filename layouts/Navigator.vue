@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer app>
     <v-list dense nav>
-        <v-list-item v-for="menu in menus" :key="menu.name" link :prepend-icon="menu.icon" :title="menu.name" />
+        <v-list-item v-for="menu in menus" :key="menu.name" link :title="menu.name" @click="to_link(menu.path)" />
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -31,8 +31,13 @@ onMounted(async () =>{
 })
 
 async function loadTree(){
-  let folderTree = await window.electronAPI.walkTree(props.folder);
+  console.log(props.folder)
+  let folderTree = await window.electronAPI.findProject(props.folder);
   // fixme
   menus.value = folderTree
+}
+
+function to_link(path){
+  navigateTo("/?path=" + path)
 }
 </script>

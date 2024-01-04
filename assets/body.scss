@@ -10,14 +10,6 @@
     margin-top: 25px;
     margin-bottom: 15px;
   }
-  .v-card {
-    margin-bottom: 35px;
-    > .v-container {
-      padding: 20px 22px;
-    }
-    box-shadow: none !important;
-  }
-
   .v-text-field input {
     font-size: t.$middle_text;
     // padding: 8px 12px;
@@ -50,6 +42,19 @@
 
 input:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s !important;
+}
+
+.fieldDesc {
+  margin-bottom: 5px;
+
+  > .fieldTitle {
+    font-size: t.$big_text;
+  }
+  > .hint {
+    font-size: t.$small_title;
+    color: t.$sub_text;
+    margin-left: 1em;
+  }
 }
 
 .fill-height {
