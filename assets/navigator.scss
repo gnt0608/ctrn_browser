@@ -15,4 +15,8 @@ nav.v-navigation-drawer {
     color: t.$brand !important;
     background-color: t.$mono10;
   }
+
+  .v-list-item__prepend > .v-icon ~ .v-list-item__spacer {
+    width: 0px !important;
+  }
 }

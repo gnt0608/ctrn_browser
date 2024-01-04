@@ -1,21 +1,26 @@
 <template>
-  <div>{{ path }}</div>
-  <div>{{ config }}</div>
-  <template v-for="(component, index) in components">
-    <component :is="toCamelCase(component.process)" :component="component" />
+  <div class="d-flex justify-end">
+    <h1 > {{ name }}</h1>
+    <v-spacer />
+    <v-btn color="brand" class="mr-2"> Save </v-btn>
+    <v-btn color="brand"> Add </v-btn>
+  </div>
+  <template v-for="(key, index) in keys">
+    <Procs :name="key" :component="config[key]" />
   </template>
 </template>
 
 <script setup>
 let route = useRoute();
 let path = ref(route.query.path);
-
+let name = ref(route.query.name)
 let config = ref({});
-let components = ref([]);
+let keys = ref([]);
 watch(
   () => route.query.path,
   async () => {
     path.value = route.query.path;
+    name.value = route.query.name
     await loadYaml();
   }
 );
@@ -23,33 +28,13 @@ watch(
 onMounted(async () => {
   if (route.query.path) {
     path.value = route.query.path;
+    name.value = route.query.name
     await loadYaml();
   }
 });
 
 async function loadYaml() {
   config.value = await window.electronAPI.loadYaml(route.query.path);
-  components.value = Object.values(config.value);
-}
-
-function toCamelCase(str) {
-  if (typeof str !== "string") return str;
-
-  var strs = str.split(/[-_ ]+/),
-    i = 1,
-    len = strs.length;
-
-  if (len <= 1) return str;
-
-  i = 0;
-  str = "";
-
-  for (; i < len; i++) {
-    str += strs[i].toLowerCase().replace(/^[a-z]/, function (value) {
-      return value.toUpperCase();
-    });
-  }
-
-  return str;
+  keys.value = Object.keys(config.value);
 }
 </script>
