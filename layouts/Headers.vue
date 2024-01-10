@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app class="d-flex align-end" color="primary" dark clippedLeft>
-    <v-toolbar-title class="ml-3">Ctrn Browser</v-toolbar-title>
+    <v-toolbar-title class="ml-3 apptitle" >Ctrn Browser</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-text-field
       class="pt-6 mr-2"

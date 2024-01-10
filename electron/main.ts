@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
+import fs from "fs";
 import path from "path";
 const Store = require("electron-store");
 import * as yaml from "js-yaml";
@@ -26,8 +27,12 @@ const preload = path.join(process.env.DIST, "preload.js");
 function bootstrap() {
   ipcMain.handle("getFolder", handleGetFolder);
   ipcMain.handle("dialog:openFile", handleFileOpen);
+  ipcMain.handle("addProject", addProject);
   ipcMain.handle("findProject", handleFindProject);
   ipcMain.handle("loadYaml", loadYaml);
+  ipcMain.handle("saveYaml", saveYaml);
+  ipcMain.handle("loadEnvJSON", loadEnvJSON);
+  ipcMain.handle("saveEnvJSON", saveEnvJSON);
   win = new BrowserWindow({
     webPreferences: {
       preload,
@@ -62,7 +67,11 @@ function handleGetFolder() {
   return folderData.get("folder", "");
 }
 
-import fs from "fs";
+function addProject(event, foldername: string, projectname: string) {
+  fs.mkdirSync(path.join(foldername, projectname));
+  fs.writeFileSync(path.join(foldername, projectname, "config.yml"), "");
+}
+
 function handleFindProject(event, foldername: string) {
   return findProject(foldername);
 }
@@ -87,7 +96,36 @@ function findProject(dir: string) {
 
 function loadYaml(event, filename: string) {
   const yamlText = fs.readFileSync(filename, "utf8");
-  return yaml.load(yamlText);
+  let json = yaml.load(yamlText);
+  let arr = [];
+  if (json) {
+    let keys = Object.keys(json);
+    for (let key of keys) {
+      let obj = json[key];
+      obj["name"] = key;
+      arr.push(obj);
+    }
+  }
+  return arr;
+}
+
+function saveYaml(event, filename: string, json: string) {
+  let jsonObj = JSON.parse(json);
+  let obj = {};
+  for (let proc of jsonObj) {
+    obj[proc.name] = proc;
+    delete obj[proc.name].name;
+  }
+  fs.writeFileSync(filename, yaml.dump(obj));
+}
+
+function loadEnvJSON(event, foldername: string) {
+  if(fs.existsSync(path.join(foldername, "env.json"))) return JSON.parse(fs.readFileSync(path.join(foldername, "env.json"), "utf8"));
+  return {};
+}
+
+function saveEnvJSON(event, foldername: string, json: string) {
+  fs.writeFileSync(path.join(foldername, "env.json"), json);
 }
 
 app.whenReady().then(bootstrap);
