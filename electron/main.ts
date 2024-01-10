@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import fs from "fs";
 import path from "path";
 const Store = require("electron-store");
+//@ts-ignore
 import * as yaml from "js-yaml";
 
 // The built directory structure
@@ -43,6 +44,7 @@ function bootstrap() {
     },
   });
 
+  win.setMenuBarVisibility(false);
   if (process.env.VITE_DEV_SERVER_URL) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
     win.webContents.openDevTools();
@@ -67,17 +69,17 @@ function handleGetFolder() {
   return folderData.get("folder", "");
 }
 
-function addProject(event, foldername: string, projectname: string) {
+function addProject(event: any, foldername: string, projectname: string) {
   fs.mkdirSync(path.join(foldername, projectname));
   fs.writeFileSync(path.join(foldername, projectname, "config.yml"), "");
 }
 
-function handleFindProject(event, foldername: string) {
+function handleFindProject(event: any, foldername: string) {
   return findProject(foldername);
 }
 
 function findProject(dir: string) {
-  let arr = [];
+  let arr: object[] = [];
   let files = fs.readdirSync(dir);
   for (let file of files) {
     var filepath = path.join(dir, file);
@@ -94,7 +96,7 @@ function findProject(dir: string) {
   return arr;
 }
 
-function loadYaml(event, filename: string) {
+function loadYaml(event: any, filename: string) {
   const yamlText = fs.readFileSync(filename, "utf8");
   let json = yaml.load(yamlText);
   let arr = [];
@@ -109,9 +111,9 @@ function loadYaml(event, filename: string) {
   return arr;
 }
 
-function saveYaml(event, filename: string, json: string) {
+function saveYaml(event: any, filename: string, json: string) {
   let jsonObj = JSON.parse(json);
-  let obj = {};
+  let obj: any = {};
   for (let proc of jsonObj) {
     obj[proc.name] = proc;
     delete obj[proc.name].name;
@@ -119,12 +121,15 @@ function saveYaml(event, filename: string, json: string) {
   fs.writeFileSync(filename, yaml.dump(obj));
 }
 
-function loadEnvJSON(event, foldername: string) {
-  if(fs.existsSync(path.join(foldername, "env.json"))) return JSON.parse(fs.readFileSync(path.join(foldername, "env.json"), "utf8"));
+function loadEnvJSON(event: any, foldername: string) {
+  if (fs.existsSync(path.join(foldername, "env.json")))
+    return JSON.parse(
+      fs.readFileSync(path.join(foldername, "env.json"), "utf8")
+    );
   return {};
 }
 
-function saveEnvJSON(event, foldername: string, json: string) {
+function saveEnvJSON(event: any, foldername: string, json: string) {
   fs.writeFileSync(path.join(foldername, "env.json"), json);
 }
 
