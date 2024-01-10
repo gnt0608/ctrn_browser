@@ -2,6 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "main": "dist-electron/main.js",
+  "productname": "ctrn Browser",
   "version": "1.0.0",
   "scripts": {
     "build": "nuxi build --prerender && electron-builder",
@@ -9,6 +10,12 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
+  },
+  "build": {
+    "appId": "Gen",
+    "win": {
+      "target": "portable"
+    }
   },
   "devDependencies": {
     "electron": "^28.1.1",
