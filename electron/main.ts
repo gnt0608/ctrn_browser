@@ -49,7 +49,9 @@ function bootstrap() {
     win.loadURL(process.env.VITE_DEV_SERVER_URL);
     win.webContents.openDevTools();
   } else {
-    win.loadFile(path.join(process.env.VITE_PUBLIC!, "index.html"));
+    win.loadFile(path.join(process.env.VITE_PUBLIC!, 'index.html'))
+    // win.loadUrl("/")
+    win.webContents.openDevTools();
   }
 }
 

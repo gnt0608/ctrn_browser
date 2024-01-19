@@ -5,7 +5,8 @@
   "productname": "ctrn Browser",
   "version": "1.0.0",
   "scripts": {
-    "build": "nuxi build --prerender && electron-builder",
+    "build-on-docker": "docker build . -t ctrn_builder && docker-compose up",
+    "build": "nuxi build --prerender && electron-builder --win --x64",
     "dev": "nuxi dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -14,7 +15,8 @@
   "build": {
     "appId": "Gen",
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "build/icon.ico"
     }
   },
   "devDependencies": {

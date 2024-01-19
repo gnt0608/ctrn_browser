@@ -1,6 +1,7 @@
 {
-  "appId": "your.app.id",
+  "appId": "Gen",
   "asar": false,
+  "productName": "ctrn_browser",
   "directories": {
     "output": "release/${version}"
   },
@@ -8,27 +9,13 @@
     ".output/**/*",
     "dist-electron"
   ],
-  "mac": {
-    "artifactName": "${productName}_${version}.${ext}",
-    "target": [
-      "dmg"
-    ]
-  },
   "win": {
     "target": [
       {
-        "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "target": "portable",
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
-  },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+    "artifactName": "${productName}_${version}.${ext}",
+    "icon": "build/icon.ico"
   }
 }

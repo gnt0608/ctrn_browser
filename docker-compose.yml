@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+  nginx:
+    image: ctrn_builder
+    volumes:
+      - .:/app
+    command: -c "npm install @rollup/rollup-linux-x64-gnu && npm i && npm run build"
