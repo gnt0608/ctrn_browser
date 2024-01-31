@@ -6,7 +6,7 @@
         事前に設定したDBからデータ取得を行い、CSV形式で保存します
       </v-card-subtitle>
       <v-container>
-        <v-row>
+        <!-- <v-row>
           <v-col>
             <div class="fieldDesc">
               <div class="fieldTitle">
@@ -21,7 +21,7 @@
               <v-radio label="SQLServer" value="SQLServer"></v-radio>
             </v-radio-group>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
           <v-col>
             <div class="fieldDesc">
@@ -67,9 +67,9 @@ let props = defineProps({
 });
 
 // initalSetup
-if (!props.component.db_type || props.component.db_type == "") {
-    props.component.db_type = "Postgres";
-  }
+// if (!props.component.db_type || props.component.db_type == "") {
+//     props.component.db_type = "Postgres";
+//   }
 function initialSetup(arg, initParam) {
   if (!props.component.args[arg] || props.component.args[arg] == "") {
     props.component.args[arg] = initParam;

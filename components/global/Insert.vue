@@ -6,7 +6,7 @@
         事前に用意したCSVファイルを利用し、DBへ事前データの登録を行います。
       </v-card-subtitle>
       <v-container>
-        <v-row>
+        <!-- <v-row>
           <v-col>
             <div class="fieldDesc">
               <div class="fieldTitle">
@@ -21,7 +21,7 @@
               <v-radio label="SQLServer" value="SQLServer"></v-radio>
             </v-radio-group>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
           <v-col>
             <div class="fieldDesc">
@@ -58,8 +58,8 @@ function initialSetup(arg, initParam) {
   }
 }
 
-if (!props.component.db_type || props.component.db_type == "") {
-    props.component.db_type = "Postgres";
-  }
+// if (!props.component.db_type || props.component.db_type == "") {
+//     props.component.db_type = "Postgres";
+//   }
 initialSetup("in_dir", "./prepare/input_csv/");
 </script>

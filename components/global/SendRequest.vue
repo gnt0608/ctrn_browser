@@ -6,7 +6,7 @@
         Newmanを用いたリクエストを送信することができます
       </v-card-subtitle>
       <v-container>
-        <v-row>
+        <!-- <v-row>
           <v-col>
             <div class="fieldDesc">
               <div class="fieldTitle">
@@ -18,7 +18,7 @@
               <v-radio label="Newman" value="Newman"></v-radio>
             </v-radio-group>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row>
           <v-col>
             <div class="fieldDesc">
@@ -66,9 +66,9 @@ function initialSetup(arg, initParam) {
 }
 
 // initalSetup
-if (!props.component.api_type || props.component.api_type == "") {
-    props.component.api_type = "Newman";
-  }
+// if (!props.component.api_type || props.component.api_type == "") {
+//     props.component.api_type = "Newman";
+//   }
 initialSetup("request_json", "./request/MyCollection.postman_collection.json");
 initialSetup("out_path", "./output/request/");
 </script>

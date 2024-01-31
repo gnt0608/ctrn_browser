@@ -6,18 +6,11 @@
   "version": "1.0.0",
   "scripts": {
     "build-on-docker": "docker build . -t ctrn_builder && docker-compose up",
-    "build": "nuxi build --prerender && electron-builder --win --x64",
+    "build": "nuxi build --prerender && electron-builder --win --x64 --config ./electron-builder.json5",
     "dev": "nuxi dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
-  },
-  "build": {
-    "appId": "Gen",
-    "win": {
-      "target": "portable",
-      "icon": "build/icon.ico"
-    }
   },
   "devDependencies": {
     "electron": "^28.1.1",
@@ -37,6 +30,7 @@
     "@mdi/font": "^7.4.47",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
+    "@rollup/rollup-linux-x64-gnu": "^4.9.6",
     "electron-store": "^8.1.0",
     "js-yaml": "^4.1.0",
     "pinia": "^2.1.7",
