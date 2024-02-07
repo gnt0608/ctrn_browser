@@ -1,6 +1,5 @@
 {
   "appId": "Gen",
-  "asar": false,
   "productName": "ctrn_browser",
   "directories": {
     "output": "release/${version}"
@@ -10,6 +9,7 @@
     "dist-electron"
   ],
   "win": {
+    "target": "portable",
     "artifactName": "${productName}_${version}.${ext}",
     "icon": "build/icon.ico"
   }
